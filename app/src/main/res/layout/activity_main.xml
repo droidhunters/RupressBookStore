@@ -32,7 +32,9 @@
             android:layout_height="wrap_content"
             android:text="Sign Up"
             android:id="@+id/button2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:nestedScrollingEnabled="false"
+            android:onClick="ClickSignUpMain" />
     </LinearLayout>
 
 </RelativeLayout>
