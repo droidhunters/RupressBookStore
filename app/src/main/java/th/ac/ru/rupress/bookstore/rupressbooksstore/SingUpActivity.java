@@ -1,9 +1,20 @@
 package th.ac.ru.rupress.bookstore.rupressbooksstore;
 
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 public class SingUpActivity extends AppCompatActivity {
 
@@ -11,6 +22,8 @@ public class SingUpActivity extends AppCompatActivity {
     // ประกาศ ตัวแปร แบบ Private โดยเฉพาะ โดยสร้างตัวแปร ให้ตรงกัน กับ Form
     private EditText UserEditText, PassEditText, NameEditText, AddrEditText;
     private String userString, passString, nameString, addrString;
+    private static final String urlPHP = "http://swiftcodingthai.com/25JUN/add_user_dew.php";
+    private static final String moneySTRING = "500";
     // Text อยู่ในรูปแบบ String
     //control + alt + L เพื่อทำการเรียง Code เพื่อความสวยงาม
 
@@ -58,6 +71,29 @@ public class SingUpActivity extends AppCompatActivity {
 
     private void uploadUserToServer() {
 
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add("isAdd", "true")
+                .add("User", userString)
+                .add("Password", passString)
+                .add("Name", nameString)
+                .add("Address", addrString)
+                .add("Money", moneySTRING)
+                .build();
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url(urlPHP).post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                finish();
+            }
+        });
     }
 
 } //Main Class
